@@ -41,7 +41,7 @@ class PageController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('success','Pagina creata con successo');
+        return redirect()->back()->withSuccess('Pagina creata con successo');
     }
 
     /**

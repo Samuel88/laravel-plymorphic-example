@@ -6,6 +6,9 @@
     <title>Test App</title>
 </head>
 <body>
+    @if(session('success'))
+        <h1>{{ session('success') }}</h1>
+    @endif
     {{ $slot }}
 </body>
 </html>
