@@ -1,5 +1,9 @@
 <x-layouts.app>
     @foreach ($pages as $page)
-        <img src="{{ asset('storage/' . $page->image?->url) }}">
+        <h1>{{ $page->title }}</h1>
+        <p>{{ $page->content }}</p>
+        @if($page->image)
+            <img src="{{ $page->image->url }}">
+        @endif
     @endforeach
 </x-layouts.app>

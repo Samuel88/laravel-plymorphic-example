@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductStoreRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class ProductController extends Controller
 {
@@ -12,7 +14,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::all();
+        return view("products.index", compact("products"));
     }
 
     /**
@@ -20,15 +23,29 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view("products.create");
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductStoreRequest $request): RedirectResponse
     {
-        //
+        $prod = Product::create($request->only('name', 'price'));
+        
+        if ($request->hasFile('images')) {
+            foreach($request->file('images') as $image) {
+                $path = $image->storePubliclyAs(
+                    'images', $image->getClientOriginalName(),
+                    'public'
+                );
+                $prod->images()->create([
+                    'url' => $path
+                ]);
+            }
+        }
+
+        return redirect()->back()->withSuccess('Prodotto inserito con successo');
     }
 
     /**
